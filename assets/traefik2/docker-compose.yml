@@ -1,0 +1,33 @@
+version: '3.4'
+networks: { intr: { external: true } }
+volumes:
+  traefik_acme_data: { driver: "local" }
+services:
+  traefik:
+    image: traefik:v2.7
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+      - 2002:8080
+    networks: [ "intr" ]
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - traefik_acme_data:/etc/traefik/acme
+    command:
+      - --entrypoints.http.address=:80
+      - --entrypoints.https.address=:443
+      - --entrypoints.https.http.tls.certresolver=lets-encrypt
+      - --certificatesresolvers.lets-encrypt.acme.email=abc.xyz@gmail.com
+      - --certificatesresolvers.lets-encrypt.acme.storage=/etc/traefik/acme/acme.json
+      - --certificatesresolvers.lets-encrypt.acme.tlschallenge=true
+      - --certificatesresolvers.lets-encrypt.acme.httpchallenge.entrypoint=http
+      - --api.insecure=true
+      - --log.level=INFO
+      - --providers.docker
+      - --providers.docker.endpoint=unix:///var/run/docker.sock
+      # - --providers.docker.useBindPortIP=true
+      - --providers.docker.network=intr
+      - --providers.docker.exposedByDefault=false
+      - --providers.docker.defaultRule=Host(`{{ .Name }}.${BASE_URL}`)
+      

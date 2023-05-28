@@ -1,0 +1,23 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "workbench.colorCustomizations": {
+      "activityBar.background": "#455d7c"
+    },
+    "task.autoDetect": "off",
+    "files.watcherExclude": {
+      "**/.git/**": true,
+      "**/node_modules/**": true,
+    },
+    "files.exclude": {
+      "**/.git/**": true,
+      "**/node_modules/**": true,
+    },
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+  }
+}

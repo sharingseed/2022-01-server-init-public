@@ -1,0 +1,101 @@
+#!/bin/bash
+
+# オプション解析
+show_usage() {
+  echo "Usage: -p [-t tmp_root_dir] target_dir | Bind Temp" 1>&2
+  echo "       -p target_dir source_dir | Bind" 1>&2
+  echo "       -u target_dir_prefix | Unbind recursively" 1>&2
+  echo "       -n ... | Dryrun only" 1>&2
+  exit 1
+}
+
+PERSIST_FLG=0
+UMOUNT_FLG=0
+DRYRUN_FLG=0
+
+while getopts hupnt: OPT
+do
+  case $OPT in
+    h)  show_usage
+      ;;
+    p)  PERSIST_FLG=1
+      ;;
+    u)  UMOUNT_FLG=1
+      ;;
+    n)  DRYRUN_FLG=1
+      ;;
+    t)  TMP_ROOT_DIR=$OPTARG
+      ;;
+  esac
+done
+shift $((OPTIND - 1))
+
+TARGET_DIR=$(readlink -f $1)
+
+# 事前検証
+[ -z "$TARGET_DIR" ] && show_usage
+
+# マウント解除
+if [ $UMOUNT_FLG = 1 ]; then
+  TMP_FSTAB="/tmp/fstab.$(date "+%Y%m%d_%H%M%S")"
+  # fstabの各行処理
+  while read target mountpoint fstype option dump fsck
+  do
+    RAW_LINE="$target $mountpoint $fstype $option $dump $fsck"
+    if [ $fstype = "none" -a $option = "bind,nofail" -a $dump = "0" -a $fsck = "0" ]; then
+      if [ ! -z $(echo $mountpoint | grep "^$TARGET_DIR") ]; then
+        echo "* Unmount: ${mountpoint} <= ${target}"
+        [ $DRYRUN_FLG -ne 1 ] && sudo umount -f ${mountpoint}
+      else
+        echo $RAW_LINE >> $TMP_FSTAB
+      fi
+    else
+      echo $RAW_LINE >> $TMP_FSTAB
+    fi
+  done < /etc/fstab
+
+  # fstabの書き換え要否確認後、書き換え
+  if [ "$(cat /etc/fstab | md5sum)" != "$(cat $TMP_FSTAB | md5sum)" ]; then
+    echo "* Rewrite fstab"
+    [ $DRYRUN_FLG -ne 1 ] && sudo cp /etc/fstab /etc/fstab.`date "+%Y%m%d_%H%M%S"`
+    [ $DRYRUN_FLG -ne 1 ] && cat $TMP_FSTAB | sudo tee /etc/fstab > /dev/null
+    [ $DRYRUN_FLG -ne 1 ] && sudo mount -a
+  else
+    echo "* No cahange in fstab"
+  fi
+
+# マウント追加
+elif [ $PERSIST_FLG = 1 ]; then
+
+  # Mount元ディレクトリが指定されていなければHASH生成
+  if [ -z "$2" ]; then
+    [ -z "$TMP_ROOT_DIR" ] && TMP_ROOT_DIR=/tmp
+    TARGET_HASH=$(echo -n $TARGET_DIR | md5sum)
+    SOURCE_DIR="${TMP_ROOT_DIR}/${TARGET_HASH%% *}"
+  else
+    SOURCE_DIR=$(readlink -f $2)
+  fi
+
+  # Mount元とMount先の作成
+  [ ! -e $SOURCE_DIR ] && mkdir -p $SOURCE_DIR
+  [ ! -e $TARGET_DIR ] && mkdir -p $TARGET_DIR
+
+  # Mount
+  [ $DRYRUN_FLG -ne 1 ] && sudo mount --bind $SOURCE_DIR $TARGET_DIR
+  
+  # fstabの書き換え要否確認
+  FSTAB_LINE="$SOURCE_DIR $TARGET_DIR none bind,nofail 0 0"
+  FSTAB_LINE_EXISTS=$(cat /etc/fstab | grep "${FSTAB_LINE}")
+  if [ -z "$FSTAB_LINE_EXISTS" ]; then
+    echo "* Write fstab: ${TARGET_DIR} <= ${SOURCE_DIR}"
+    # fstabへの書き込み
+    [ $DRYRUN_FLG -ne 1 ] && sudo cp /etc/fstab /etc/fstab.`date "+%Y%m%d_%H%M%S"`
+    [ $DRYRUN_FLG -ne 1 ] && echo $FSTAB_LINE | sudo tee -a /etc/fstab > /dev/null
+    [ $DRYRUN_FLG -ne 1 ] && sudo mount -a
+  else
+    echo "* No cahange in fstab"
+  fi
+
+else
+  show_usage
+fi
