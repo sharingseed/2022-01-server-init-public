@@ -24,6 +24,7 @@ if sudo -u $USER docker info 1>/dev/null 2>/dev/null; then
   echo "skip set docker-group to dev-user" >&2
 else
   sudo usermod -aG docker $USER
+  newgrp docker
 fi
 
 echo "-- completed --" >&2
