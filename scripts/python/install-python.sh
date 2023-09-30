@@ -17,7 +17,9 @@ fi
 if [ -n "$(pyenv versions --bare | grep ${PYTHON_VERSION})" ]; then
   echo "skip install python ${PYTHON_VERSION}" >&2
 else
-  pyenv install ${PYTHON_VERSION}
+  sudo apt-get install -y libssl-dev
+  CFLAGS=-I/usr/include/openssl LDFLAGS=-L/usr/lib \
+    pyenv install ${PYTHON_VERSION}
 fi
 if [ "$(pyenv global)" != "${PYTHON_VERSION}" ]; then
   pyenv global ${PYTHON_VERSION}

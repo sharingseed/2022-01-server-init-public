@@ -7,9 +7,16 @@ source /etc/profile.d/anyenv.sh
 if [ -n "$(command -v poetry)" ]; then
   echo "skip install poetry" >&2
 else
-  curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python3
-  source $HOME/.poetry/env
-  poetry config virtualenvs.in-project true
+  curl -sSL https://install.python-poetry.org | python3
+fi
+
+# Install poetry
+SCRIPT_FILE="/etc/profile.d/set_user_path.sh"
+if [ -e $SCRIPT_FILE ]; then
+  echo "skip create '$SCRIPT_FILE'" >&2
+else
+  echo "PATH=\$HOME/.local/bin:\$PATH" | sudo tee $SCRIPT_FILE
+  source $SCRIPT_FILE
 fi
 
 echo "-- completed --" >&2
