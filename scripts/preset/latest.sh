@@ -19,8 +19,8 @@ bash "${LIB_DIR}/docker/install-docker-compose.sh"
 bash "${LIB_DIR}/docker/launch-traefik.sh"
 
 bash "${LIB_DIR}/node/install-nodenv.sh"
-bash "${LIB_DIR}/node/install-node.sh" "16.14.2"
-bash "${LIB_DIR}/node/install-npm-global.sh" yarn
+bash "${LIB_DIR}/node/install-node.sh" "18.17.0"
+bash "${LIB_DIR}/node/install-npm-global.sh" "yarn"
 
 bash "${LIB_DIR}/python/install-pyenv.sh"
 bash "${LIB_DIR}/python/install-python.sh" "3.11.4"
