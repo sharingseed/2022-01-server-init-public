@@ -20,7 +20,7 @@ else
 fi
 
 # Permit for dev user
-if sudo -u $USER docker info 1>/dev/null 2>/dev/null; then
+if groups $USER | grep -q "docker"; then
   echo "skip set docker-group to dev-user" >&2
 else
   sudo usermod -aG docker $USER

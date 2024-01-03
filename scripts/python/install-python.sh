@@ -17,7 +17,12 @@ fi
 if [ -n "$(pyenv versions --bare | grep ${PYTHON_VERSION})" ]; then
   echo "skip install python ${PYTHON_VERSION}" >&2
 else
-  sudo apt-get install -y libssl-dev libffi-dev
+  sudo apt-get update
+  sudo apt-get install -y \
+    build-essential libssl-dev libffi-dev libbz2-dev libdb-dev \
+    libreadline-dev libgdbm-dev liblzma-dev \
+    libncursesw5-dev libsqlite3-dev \
+    zlib1g-dev uuid-dev tk-dev
   CFLAGS=-I/usr/include/openssl LDFLAGS=-L/usr/lib \
     pyenv install ${PYTHON_VERSION}
 fi
