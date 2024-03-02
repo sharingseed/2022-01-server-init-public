@@ -1,9 +1,11 @@
 version: '3.4'
 networks: { intr: { external: true } }
+volumes:
+  traefik_acme_data: { driver: "local" }
 services:
   traefik:
     image: traefik:v2.11
-    restart: always
+    restart: unless-stopped
     ports:
       - 80:80
       - 443:443
@@ -11,7 +13,7 @@ services:
     networks: [ "intr" ]
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./cert:/etc/traefik/cert
+      - traefik_acme_data:/etc/traefik/acme
       # - ./traefik.toml:/etc/traefik/traefik.toml
     command:
       - --log.level=INFO
@@ -20,7 +22,7 @@ services:
       - --entrypoints.https.address=:443
       - --entrypoints.https.http.tls.certresolver=lets-encrypt
       - --certificatesresolvers.lets-encrypt.acme.email=abc.xyz@gmail.com
-      - --certificatesresolvers.lets-encrypt.acme.storage=/etc/traefik/cert/acme.json
+      - --certificatesresolvers.lets-encrypt.acme.storage=/etc/traefik/acme/acme.json
       - --certificatesresolvers.lets-encrypt.acme.tlschallenge=true
       - --certificatesresolvers.lets-encrypt.acme.httpchallenge.entrypoint=http
       - --providers.docker
