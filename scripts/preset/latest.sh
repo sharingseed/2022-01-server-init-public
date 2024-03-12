@@ -15,7 +15,7 @@ bash "${LIB_DIR}/tools/install-yq.sh"
 bash "${LIB_DIR}/tools/set-git-default-user.sh"
 
 bash "${LIB_DIR}/docker/install-docker.sh"
-bash "${LIB_DIR}/docker/install-docker-compose.sh"
+# bash "${LIB_DIR}/docker/install-docker-compose.sh"
 bash "${LIB_DIR}/docker/launch-traefik.sh"
 
 bash "${LIB_DIR}/node/install-nodenv.sh"

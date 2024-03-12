@@ -1,0 +1,54 @@
+entryPoints:
+  http:
+    address: :80
+  https:
+    address: :443
+    http:
+      tls:
+        certResolver: letsencrypt
+
+certificatesResolvers:
+  letsencrypt:
+    acme:
+      email: abc.xyz@gmail.com
+      storage: /traefik_acme/acme.json
+      httpChallenge:
+        entryPoint: http
+      tlsChallenge: true
+
+tls:
+  certificates:
+    - certFile: /etc/traefik/certs/default/cert
+      keyFile: /etc/traefik/certs/default/key
+  stores:
+    default:
+      defaultGeneratedCert:
+        resolver: letsencrypt
+  options:
+    default:
+      minVersion: VersionTLS12
+
+providers:
+  docker:
+    watch: true
+    network: intr
+    exposedByDefault: false
+    useBindPortIP: true
+    defaultRule: Host(`{{ index .Labels "com.docker.compose.service" }}.{{ index .Labels "com.docker.compose.project" }}.{{ env "BASE_URL" }}`)
+  file:
+    watch: true
+    directory: /etc/traefik/provider
+    debugLogGeneratedTemplate: true
+
+global:
+  sendAnonymousUsage: false
+
+log:
+  level: DEBUG
+  format: common
+
+api:
+  insecure: true
+  dashboard: true
+  debug: true
+  disableDashboardAd: true

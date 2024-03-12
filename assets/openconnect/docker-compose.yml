@@ -1,0 +1,19 @@
+version: '3.6'
+services:
+  openconnect-proxy:
+    image: ubuntu:22.04
+    # devices: [/dev/net/tun]
+    # cap_add: [NET_ADMIN]
+    logging:
+      driver: "json-file"
+      options: { max-size: "1M", max-file: "3" }
+    restart: unless-stopped
+    ports: [ 8901:10001, 8902:10002 ]
+    volumes: [ ./init.sh:/init.sh ]
+    command: bash /init.sh
+    environment:
+      - VPN_USER
+      - VPN_PASSWORD
+      - VPN_URL
+      - TUNNEL_OPTIONS=${TUNNEL_OPTIONS:-}
+      - VPN_OPTIONS=--disable-ipv6 --protocol=nc --no-dtls --os=linux
