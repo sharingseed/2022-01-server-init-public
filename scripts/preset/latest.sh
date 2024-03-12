@@ -27,7 +27,7 @@ bash "${LIB_DIR}/python/install-python.sh" "3.11.4"
 bash "${LIB_DIR}/python/install-poetry.sh"
 
 bash "${LIB_DIR}/php/install-phpenv.sh"
-bash "${LIB_DIR}/php/install-php.sh" "8.1.8"
+bash "${LIB_DIR}/php/install-php.sh" "8.1.5"
 bash "${LIB_DIR}/php/install-composer.sh"
 
 echo "-- completed all --" >&2
