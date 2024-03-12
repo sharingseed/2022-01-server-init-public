@@ -1,33 +1,19 @@
 version: '3.4'
 networks: { intr: { external: true } }
-volumes:
-  traefik_acme_data: { driver: "local" }
+volumes: { traefik2_acme_data: { driver: "local" } }
 services:
   traefik:
-    image: traefik:alpine
-    restart: unless-stopped
+    image: traefik:v2.11
+    restart: always
     ports:
-    - 80:80
-    - 443:443
-    - 2002:8080
+      - 80:80
+      - 443:443
+      - 2002:8080
+      - 2001:2001
     networks: [ "intr" ]
     volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
-    - traefik_acme_data:/etc/traefik/acme
-    command:
-    - --defaultEntryPoints=http,https
-    - --insecureSkipVerify
-    - --entryPoints=Name:http Address::80 Compress:true
-    - --entryPoints=Name:https Address::443 Compress:true TLS 
-    - --api
-    - --docker
-    - --docker.watch
-    - --docker.domain=${BASE_URL}
-    - --docker.exposedbydefault=false
-    - --acme
-    - --acme.email=abc.xyz@gmail.com
-    - --acme.onhostrule
-    - --acme.entrypoint=https
-    - --acme.httpchallenge
-    - --acme.httpchallenge.entrypoint=http
-    - --acme.storage=/etc/traefik/acme/acme.json
+      - /var/run/docker.sock:/var/run/docker.sock
+      - traefik2_acme_data:/traefik_acme
+      - ./conf:/etc/traefik
+    environment:
+      - BASE_URL
