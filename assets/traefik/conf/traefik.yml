@@ -16,24 +16,18 @@ certificatesResolvers:
         entryPoint: http
       tlsChallenge: true
 
+# put tls.certificates settrings into provider/domain.name.yml
+# put crt, key files into /etc/traefik/certs/domain.name/...
 tls:
   certificates:
-    - certFile: /etc/traefik/certs/default/cert
+    - certFile: /etc/traefik/certs/default/crt
       keyFile: /etc/traefik/certs/default/key
-  stores:
-    default:
-      defaultGeneratedCert:
-        resolver: letsencrypt
-  options:
-    default:
-      minVersion: VersionTLS12
 
 providers:
   docker:
     watch: true
     network: intr
     exposedByDefault: false
-    useBindPortIP: true
     defaultRule: Host(`{{ index .Labels "com.docker.compose.service" }}.{{ index .Labels "com.docker.compose.project" }}.{{ env "BASE_URL" }}`)
   file:
     watch: true
@@ -45,7 +39,6 @@ global:
 
 log:
   level: DEBUG
-  format: common
 
 api:
   insecure: true
