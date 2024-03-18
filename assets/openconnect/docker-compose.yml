@@ -12,7 +12,7 @@ services:
     ports: [ "${SOCKS5_PORT:-8022}:8022" ]
     volumes: 
       - ./init.sh:/init.sh:ro
-      - ./danted.conf:/etc/_danted.conf:ro
+      - ./_danted.conf:/etc/_danted.conf:ro
     command: bash /init.sh
     environment:
       - VPN_USER

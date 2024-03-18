@@ -42,7 +42,7 @@ echo '>> Starting Socks Server...' >&2
 cat /etc/_danted.conf > /etc/danted.conf
 service danted restart
 
-adduser --shell /sbin/nologin --gecos '' preview
-echo 'preview:cftyuhbvg' | chpasswd
+# adduser --shell /sbin/nologin --gecos '' preview
+# echo 'preview:cftyuhbvg' | chpasswd
 
 echo '>> Ready.' >&2
