@@ -1,7 +1,7 @@
 #!/bin/sh
 set -ex
 
-function install_packages() {
+function _install_packages() {
   LOG_FILE="/var/log/packages_installed"
   if [ -f "${LOG_FILE}" ]; then
     echo "Packages have been installed."
@@ -13,7 +13,7 @@ function install_packages() {
   echo "at $(date +%Y-%m-%d_%H:%M:%S)" > "${LOG_FILE}"
 }
 
-function connect_vpn() {
+function _connect_vpn() {
   if [ "$(ip add show tun0)" ]; then
     echo 'VPN is already connected.'
     return
@@ -58,21 +58,25 @@ function connect_vpn() {
   done
 }
 
-function start_proxy() {
+function _start_proxy() {
   echo '>> Starting Socks Server...' >&2
   cat /etc/_danted.conf > /etc/danted.conf
   service danted restart
 }
 
-install_packages
-connect_vpn
-start_proxy
+function _init() {
+  _install_packages
+  _connect_vpn
+  _start_proxy
 
-set +ex
+  set +ex
 
-while true; do
-  sleep 5
-  if [ ! "$(ip add show tun0 >/dev/nul 2>/dev/null)" ]; then
-    connect_vpn
-  fi
-done
+  while true; do
+    sleep 5
+    if [ ! "$(ip add show tun0 >/dev/nul 2>/dev/null)" ]; then
+      _connect_vpn
+    fi
+  done
+}
+
+${1:-_init}
