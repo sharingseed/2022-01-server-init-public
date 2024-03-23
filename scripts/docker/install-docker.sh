@@ -27,7 +27,7 @@ else
 fi
 
 # Set current group
-[ newgrp docker ] && echo "switch to newgrp" >&2
+[ "$(newgrp docker)" ] && echo "switch to newgrp" >&2
 
 echo "-- completed --" >&2
 echo "" >&2
