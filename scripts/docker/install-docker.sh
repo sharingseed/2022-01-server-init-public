@@ -24,10 +24,8 @@ if groups $USER | grep -q "docker"; then
   echo "skip set docker-group to dev-user" >&2
 else
   sudo usermod -aG docker $USER
+  newgrp docker 
 fi
-
-# Set current group
-[ "$(newgrp docker)" ] && echo "switch to newgrp" >&2
 
 echo "-- completed --" >&2
 echo "" >&2
