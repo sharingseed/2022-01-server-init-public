@@ -21,10 +21,10 @@ fi
 
 # Permit for dev user
 if groups $USER | grep -q "docker"; then
-  echo "skip set docker-group to dev-user" >&2
+  echo "skip set docker-group to current-user" >&2
 else
   sudo usermod -aG docker $USER
-  newgrp docker 
+  echo "* 'newgrp docker' to use docker command in the place."
 fi
 
 echo "-- completed --" >&2
