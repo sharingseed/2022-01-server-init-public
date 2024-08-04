@@ -18,6 +18,10 @@ else
   sudo apt -y install python${PYTHON_VERSION} python${PYTHON_VERSION}-venv
 fi
 
+#sudo update-alternatives --install /usr/bin/python python /usr/bin/python${PYTHON_VERSION} 1
+#sudo update-alternatives --set python /usr/bin/python${PYTHON_VERSION}
+
+
 echo "-- completed --" >&2
 echo "" >&2
 
