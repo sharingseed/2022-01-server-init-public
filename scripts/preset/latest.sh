@@ -15,19 +15,21 @@ bash "${LIB_DIR}/tools/install-yq.sh"
 bash "${LIB_DIR}/tools/set-git-default-user.sh"
 
 bash "${LIB_DIR}/docker/install-docker.sh"
-# bash "${LIB_DIR}/docker/install-docker-compose.sh"
 bash "${LIB_DIR}/docker/launch-traefik.sh"
 
 bash "${LIB_DIR}/node/install-nodenv.sh"
-bash "${LIB_DIR}/node/install-node.sh" "18.17.0"
+bash "${LIB_DIR}/node/install-node.sh" "20.13.1"
 bash "${LIB_DIR}/node/install-npm-global.sh" "yarn"
 
-bash "${LIB_DIR}/python/install-pyenv.sh"
-bash "${LIB_DIR}/python/install-python.sh" "3.11.4"
+# bash "${LIB_DIR}/python/install-pyenv.sh"
+# bash "${LIB_DIR}/python/install-python.sh" "3.12.3"
+bash "${LIB_DIR}/python/install-python-apt.sh" "3.12"
 bash "${LIB_DIR}/python/install-poetry.sh"
+bash "${LIB_DIR}/python/install-rye.sh"
 
-bash "${LIB_DIR}/php/install-phpenv.sh"
-bash "${LIB_DIR}/php/install-php.sh" "8.1.5"
+# bash "${LIB_DIR}/php/install-phpenv.sh"
+# bash "${LIB_DIR}/php/install-php.sh" "8.3.7"
+bash "${LIB_DIR}/php/install-php-apt.sh" "8.3"
 bash "${LIB_DIR}/php/install-composer.sh"
 
 echo "-- completed all --" >&2
