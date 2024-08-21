@@ -5,7 +5,7 @@ if [ -n "$(command -v rye)" ]; then
   echo "skip install rye" >&2
 else
   curl -sSf https://rye.astral.sh/get | RYE_INSTALL_OPTION="--yes" bash
-  source "$HOME/.rye/env"
+  bash "$HOME/.rye/env"
 fi
 
 FILE="$HOME/.profile"

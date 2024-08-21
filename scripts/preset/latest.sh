@@ -21,15 +21,13 @@ bash "scripts/node/install-nodenv.sh"
 bash "scripts/node/install-node.sh" "20.13.1"
 bash "scripts/node/install-npm-global.sh" "yarn"
 
-# bash "scripts/python/install-pyenv.sh"
-# bash "scripts/python/install-python.sh" "3.12.3"
-bash "scripts/python/install-python-apt.sh" "3.12"
+bash "scripts/python/install-pyenv.sh"
+bash "scripts/python/install-python.sh" "3.12"
 bash "scripts/python/install-poetry.sh"
 bash "scripts/python/install-rye.sh"
 
-# bash "scripts/php/install-phpenv.sh"
-# bash "scripts/php/install-php.sh" "8.3.7"
-bash "scripts/php/install-php-apt.sh" "8.3"
+bash "scripts/php/install-phpenv.sh"
+bash "scripts/php/install-php.sh" "8.3"
 bash "scripts/php/install-composer.sh"
 
 echo "-- completed all --" >&2

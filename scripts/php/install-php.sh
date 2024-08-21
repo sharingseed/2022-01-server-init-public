@@ -8,29 +8,18 @@ if [ -z "${PHP_VERSION}" ]; then
   exit 1
 fi
 
-source /etc/profile.d/anyenv.sh
-
 # Install php
-if [ -n "$(phpenv versions --bare | grep ${PHP_VERSION})" ]; then
-  echo "skip install php ${PHP_VERSION}" >&2
+if [ -n "$(command -v /usr/bin/php${PHP_VERSION})" ]; then
+  echo "skip install php${PHP_VERSION}" >&2
 else
-  # Install modules
-  # 先頭に`configure_option -R "--with-pdo-mysql"`のように追加
-  #vi $(phpenv root)/plugins/php-build/share/php-build/definitions/${PHP_VERSION}
+  sudo apt install -y software-properties-common
+  sudo add-apt-repository -y ppa:ondrej/php
+  sudo apt update
+  sudo apt -y install php${PHP_VERSION}
 
-  # Install build tools
-  sudo apt-get -y install \
-    build-essential \
-    libxml2-dev libssl-dev libbz2-dev \
-    libcurl4-openssl-dev libzip-dev libjpeg-dev libpng-dev \
-    libmcrypt-dev libreadline-dev libtidy-dev libxslt-dev autoconf \
-    pkg-config sqlite3 libsqlite3-dev libonig-dev
-
-  # Install php
-  phpenv install ${PHP_VERSION}
-  phpenv global ${PHP_VERSION}
+  sudo update-alternatives --install /usr/bin/php php /usr/bin/php${PHP_VERSION} 1
+  sudo update-alternatives --set php /usr/bin/php${PHP_VERSION}
 fi
 
-echo "completed" >&2
+echo "-- completed --" >&2
 echo "" >&2
-
