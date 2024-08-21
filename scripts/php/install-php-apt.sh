@@ -9,7 +9,7 @@ if [ -z "${PHP_VERSION}" ]; then
 fi
 
 # Install php
-if [ -n "$(command -v php${PHP_VERSION})" ]; then
+if [ -n "$(command -v /usr/bin/php${PHP_VERSION})" ]; then
   echo "skip install php${PHP_VERSION}" >&2
 else
   sudo apt install -y software-properties-common
@@ -18,8 +18,8 @@ else
   sudo apt -y install php${PHP_VERSION}
 fi
 
-#sudo update-alternatives --install /usr/bin/php php /usr/bin/php${PHP_VERSION} 1
-#sudo update-alternatives --set php /usr/bin/php${PHP_VERSION}
+sudo update-alternatives --install /usr/bin/php php /usr/bin/php${PHP_VERSION} 1
+sudo update-alternatives --set php /usr/bin/php${PHP_VERSION}
 
 
 echo "-- completed --" >&2

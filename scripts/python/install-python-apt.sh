@@ -9,7 +9,7 @@ if [ -z "${PYTHON_VERSION}" ]; then
 fi
 
 # Install python
-if [ -n "$(command -v python${PYTHON_VERSION})" ]; then
+if [ -n "$(command -v /usr/bin/python${PYTHON_VERSION})" ]; then
   echo "skip install python${PYTHON_VERSION}" >&2
 else
   sudo apt install -y software-properties-common
@@ -18,8 +18,8 @@ else
   sudo apt -y install python${PYTHON_VERSION} python${PYTHON_VERSION}-venv
 fi
 
-#sudo update-alternatives --install /usr/bin/python python /usr/bin/python${PYTHON_VERSION} 1
-#sudo update-alternatives --set python /usr/bin/python${PYTHON_VERSION}
+sudo update-alternatives --install /usr/bin/python python /usr/bin/python${PYTHON_VERSION} 1
+sudo update-alternatives --set python /usr/bin/python${PYTHON_VERSION}
 
 
 echo "-- completed --" >&2
