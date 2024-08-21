@@ -46,3 +46,8 @@ service danted restart
 # echo 'preview:cftyuhbvg' | chpasswd
 
 echo '>> Ready.' >&2
+
+while true; do
+  sleep 1h
+done
+
