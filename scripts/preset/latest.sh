@@ -22,9 +22,10 @@ bash "scripts/node/install-node.sh" "20.13.1"
 bash "scripts/node/install-npm-global.sh" "yarn"
 
 # bash "scripts/python/install-pyenv.sh"
-bash "scripts/python/install-python.sh" "3.12"
-bash "scripts/python/install-poetry.sh"
+# bash "scripts/python/install-poetry.sh"
+# bash "scripts/python/install-python.sh" "3.12"
 bash "scripts/python/install-uv.sh"
+bash "scripts/python/install-uv-python.sh" "3.12"
 
 # bash "scripts/php/install-phpenv.sh"
 bash "scripts/php/install-php.sh" "8.3"
