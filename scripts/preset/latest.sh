@@ -20,6 +20,7 @@ bash "scripts/docker/launch-traefik.sh"
 bash "scripts/node/install-nodenv.sh"
 bash "scripts/node/install-node.sh" "22.12.0"
 bash "scripts/node/install-npm-global.sh" "yarn"
+bash "scripts/node/set-yarn-version.sh" "4.5.3" "$HOME"
 
 # bash "scripts/python/install-pyenv.sh"
 # bash "scripts/python/install-poetry.sh"
@@ -32,4 +33,3 @@ bash "scripts/php/install-php.sh" "8.3"
 bash "scripts/php/install-composer.sh"
 
 echo "-- completed all --" >&2
-

@@ -10,7 +10,6 @@ fi
 
 source /etc/profile.d/anyenv.sh
 
-# Install cli0
 if [ -n "$(nodenv which ${COMMAND} 2>/dev/null)" ]; then
   echo "skip install ${COMMAND}" >&2
 else
