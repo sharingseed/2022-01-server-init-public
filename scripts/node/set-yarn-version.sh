@@ -13,5 +13,12 @@ else
   yarn set version ${YARN_VERSION}
 fi
 
+YARN_CONFIG_FILE="${HOME_DIR}/.yarnrc.yml"
+if [ -f "$YARN_CONFIG_FILE" ]; then
+  echo "skip yarn config file creation" >&2
+else
+  echo "nodeLinker: node-modules" > "$YARN_CONFIG_FILE"
+fi
+
 echo "-- completed --" >&2
 echo "" >&2
