@@ -1,6 +1,8 @@
 set -eu
 echo "-- $(basename $(dirname $0))/$(basename $0) --" >&2
 
+source /etc/profile.d/anyenv.sh
+
 YARN_VERSION=${1:-4.5.3}
 HOME_DIR=${2:-$HOME}
 
