@@ -8,6 +8,7 @@ bash "scripts/os/set-max-user-watches.sh"
 bash "scripts/os/add-swap-1.sh"
 bash "scripts/os/set-base-url.sh"
 bash "scripts/os/set-needrestart.sh"
+bash "scripts/os/stop-httpd.sh"
 
 bash "scripts/tools/install-anyenv.sh"
 bash "scripts/tools/install-jq.sh"
