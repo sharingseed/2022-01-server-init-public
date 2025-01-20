@@ -1,6 +1,6 @@
 set -eu
 # Usage:
-# BASE_URL="example.com" bash scripts/preset/latest.sh
+# BASE_URL="ap1.example.com" bash scripts/preset/latest.sh
 
 cd $(dirname $0)/../..
 
@@ -14,6 +14,10 @@ bash "scripts/tools/install-anyenv.sh"
 bash "scripts/tools/install-jq.sh"
 bash "scripts/tools/install-yq.sh"
 bash "scripts/tools/set-git-default-user.sh"
+
+#BASE_URL_DNS_NAME=
+#bash "scripts/tools/install-aws-cli.sh"
+#bash "scripts/aws/route53-reset-record.sh"
 
 bash "scripts/docker/install-docker.sh"
 bash "scripts/docker/launch-traefik.sh"

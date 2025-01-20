@@ -1,0 +1,13 @@
+[Unit]
+Description= Route53 Reset Record
+After=network-online.target
+
+[Service]
+ExecStart= /bin/bash /usr/bin/route53_reset_record.sh
+WorkingDirectory=/tmp
+Type=oneshot
+User=ubuntu
+Group=ubuntu
+
+[Install]
+WantedBy=multi-user.target
