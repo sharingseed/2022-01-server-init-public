@@ -7,7 +7,6 @@ if [ -e "${SCRIPT_FILE}" ]; then
 elif [ -n "${BASE_URL:-}" ]; then
   sudo tee ${SCRIPT_FILE} <<EOL
 export BASE_URL="${BASE_URL}"
-export BASE_URL_DNS_NAME="${BASE_URL_DNS_NAME:-}"
 EOL
 else
   echo "skip configure, not exist ${SCRIPT_FILE} nor assign BASE_URL" >&2
